@@ -1,7 +1,12 @@
 import { Song } from "../models/song.model.js";
 
 export const getAllSongs = async (req, res, next) => {
-
+    try {
+        const songs = await Song.find().sort({createdAt: -1});
+        res.json(songs);
+    } catch (error) {
+        next(error);
+    }
 }
 //Add recommendation later
 export const getFeaturedSongs = async(req, res, next) => {
@@ -52,7 +57,7 @@ export const getMadeForYouSongs = async (req, res, next) => {
     }
 }
 
-export const getTredingSongs = async(req, res, next) => {
+export const getTrendingSongs = async(req, res, next) => {
     try{
         //Fetching 6 random songs by mongodb's aggregation pipeline
         const songs = await Song.aggregate([
